@@ -108,10 +108,18 @@ execute_process(COMMAND "${CMAKE_COMMAND}" -E copy
 execute_process(COMMAND "${CMAKE_COMMAND}" -E copy
     "${CMAKE_CURRENT_SOURCE_DIR}/redlib/Red/TypeInfo/Macros/Definition.hpp"
     "${REDLIB_GEN}/Red/TypeInfo/Macros/Definition.hpp")
+execute_process(COMMAND "${CMAKE_COMMAND}" -E copy
+    "${CMAKE_CURRENT_SOURCE_DIR}/redlib/Red/TypeInfo/Definition.hpp"
+    "${REDLIB_GEN}/Red/TypeInfo/Definition.hpp")
+execute_process(COMMAND "${CMAKE_COMMAND}" -E copy
+    "${CMAKE_CURRENT_SOURCE_DIR}/redlib/Red/TypeInfo/Invocation.hpp"
+    "${REDLIB_GEN}/Red/TypeInfo/Invocation.hpp")
 set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/redlib/Red/TypeInfo/Registrar.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/redlib/Red/TypeInfo/Resolving.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/redlib/Red/TypeInfo/Macros/Definition.hpp")
+    "${CMAKE_CURRENT_SOURCE_DIR}/redlib/Red/TypeInfo/Macros/Definition.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/redlib/Red/TypeInfo/Definition.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/redlib/Red/TypeInfo/Invocation.hpp")
 
 set(MOD_VERSION_STR "${PROJECT_VERSION}")
 set(MOD_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})

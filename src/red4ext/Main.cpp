@@ -171,10 +171,19 @@ RED4EXT_C_EXPORT void RED4EXT_CALL iwn_registerNatives() {
               Red::TypeInfoRegistrar::PendingRegisterCount(), Red::TypeInfoRegistrar::PendingDescribeCount());
 }
 #endif
+#if defined(__APPLE__)
+RED4EXT_C_EXPORT bool RED4EXT_CALL Main(RED4ext::v1::PluginHandle aHandle, RED4ext::v1::EMainReason aReason,
+                                        const RED4ext::v1::Sdk *aSdk) {
+#else
 RED4EXT_C_EXPORT bool RED4EXT_CALL Main(RED4ext::PluginHandle aHandle, RED4ext::EMainReason aReason,
                                         const RED4ext::Sdk *aSdk) {
+#endif
   switch (aReason) {
+#if defined(__APPLE__)
+  case RED4ext::v1::EMainReason::Load: {
+#else
   case RED4ext::EMainReason::Load: {
+#endif
     // Attach hooks, register RTTI types, add custom states or initalize your
     // application. DO NOT try to access the game's memory at this point, it
     // is not initalized yet.
@@ -210,7 +219,11 @@ RED4EXT_C_EXPORT bool RED4EXT_CALL Main(RED4ext::PluginHandle aHandle, RED4ext::
 
     break;
   }
+#if defined(__APPLE__)
+  case RED4ext::v1::EMainReason::Unload: {
+#else
   case RED4ext::EMainReason::Unload: {
+#endif
     // Free memory, detach hooks.
     // The game's memory is already freed, to not try to do anything with it.
 
@@ -228,6 +241,18 @@ RED4EXT_C_EXPORT bool RED4EXT_CALL Main(RED4ext::PluginHandle aHandle, RED4ext::
   return true;
 }
 
+#if defined(__APPLE__)
+RED4EXT_C_EXPORT void RED4EXT_CALL Query(RED4ext::v1::PluginInfo *aInfo) {
+  aInfo->name = L"In-World Navigation";
+  aInfo->author = L"Jack Humbert";
+  aInfo->version = RED4EXT_V1_SEMVER(MOD_VERSION_MAJOR, MOD_VERSION_MINOR, MOD_VERSION_PATCH);
+  // aInfo->runtime = RED4EXT_V0_FILEVER(GAME_VERSION_MAJOR, GAME_VERSION_MINOR, GAME_VERSION_BUILD, GAME_VERSION_PRIVATE);
+  aInfo->runtime = RED4EXT_V1_RUNTIME_VERSION_INDEPENDENT;
+  aInfo->sdk = RED4EXT_V1_SDK_VERSION_1_0_0_COMPAT_0_5_0;
+}
+
+RED4EXT_C_EXPORT uint32_t RED4EXT_CALL Supports() { return RED4EXT_API_VERSION_1_COMPAT_0; }
+#else
 RED4EXT_C_EXPORT void RED4EXT_CALL Query(RED4ext::PluginInfo *aInfo) {
   aInfo->name = L"In-World Navigation";
   aInfo->author = L"Jack Humbert";
@@ -238,3 +263,4 @@ RED4EXT_C_EXPORT void RED4EXT_CALL Query(RED4ext::PluginInfo *aInfo) {
 }
 
 RED4EXT_C_EXPORT uint32_t RED4EXT_CALL Supports() { return RED4EXT_API_VERSION_LATEST; }
+#endif

@@ -70,7 +70,7 @@ void IwnUpdateNavPath(RED4ext::game::ui::MinimapContainerController* mmcc)
 }
 }
 
-void IwnMac::AttachUpdateNavPath(const RED4ext::Sdk* aSdk, RED4ext::PluginHandle aHandle)
+void IwnMac::AttachUpdateNavPath(const RED4ext::v1::Sdk* aSdk, RED4ext::v1::PluginHandle aHandle)
 {
   g_updateNavPathTarget = ImageBase() + 0x4c55228;
   void* original = nullptr;
@@ -79,7 +79,7 @@ void IwnMac::AttachUpdateNavPath(const RED4ext::Sdk* aSdk, RED4ext::PluginHandle
   g_updateNavPathOriginal = g_updateNavPathInstalled ? reinterpret_cast<IwnUpdateNavPath_t>(original) : nullptr;
 }
 
-void IwnMac::DetachUpdateNavPath(const RED4ext::Sdk* aSdk, RED4ext::PluginHandle aHandle)
+void IwnMac::DetachUpdateNavPath(const RED4ext::v1::Sdk* aSdk, RED4ext::v1::PluginHandle aHandle)
 {
   if (!g_updateNavPathInstalled || !aSdk || !aSdk->hooking || !aSdk->hooking->Detach) {
     return;
